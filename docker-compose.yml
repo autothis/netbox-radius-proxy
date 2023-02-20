@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  rad_proxy:
+    image: rad_proxy
+    build: .
+    container_name: rad_proxy
+    ports:
+      - 1812:1812/udp
+      - 1813:1813/udp
+    environment:
+      - TZ=UTC
+      - NETBOX_URL=https://10.1.1.1/
+      - NETBOX_TOKEN=ABCDE
+    logging:
+      driver: "json-file"
+      options:
+        max-size: 10m
+        max-file: "5"

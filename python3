@@ -1,0 +1,13 @@
+python3 {
+  module = netbox_clients
+
+  python_path = ${modconfdir}/${.:name}
+
+  pass_all_vps_dict = yes
+  mod_instantiate = ${.module}
+  func_instantiate = instantiate
+  mod_detach = ${.module}
+  func_detach = detach
+  mod_authorize = ${.module}
+  func_authorize = authorize
+}

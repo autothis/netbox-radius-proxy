@@ -1,0 +1,17 @@
+client dynamic {
+        ipaddr = 10.0.0.0/8
+        dynamic_clients = dynamic_clients
+        lifetime = 300
+}
+server dynamic_clients {
+        authorize {
+                update request {
+                        &FreeRADIUS-Client-IP-Address = "%{Packet-Src-IP-Address}"
+                }
+                python3
+                update control {
+                        &FreeRADIUS-Client-IP-Address = "%{Packet-Src-IP-Address}"
+                }
+                ok
+        }
+}
