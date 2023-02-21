@@ -16,5 +16,8 @@ Define a local context in Netbox matching the following format:
         }
     ]
 }
+```
 
 Default settings allow any client request to be accepted, with any source address from the 10.0.0.0/8 range transposed into the FreeRADIUS-Client-IP-Address variable. FreeRADIUS then polls Netbox via API utilising a Python module to dynamically match against a device with the source address defined as a management IP, and then retrieve the NAS-type and expected client secret from the local context.
+
+The `nas-type` variable specified in the local context will be appended to NAS-Client identifier to assist with isolation against per-OS NPS policies.
