@@ -1,4 +1,4 @@
-# freeradius
+# Netbox-Radius-Proxy
 docker-compose up --build -d
 
 # Configuration
