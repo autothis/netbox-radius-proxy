@@ -1,17 +1,22 @@
-version: '3'
-
 services:
-  rad_proxy:
-    image: rad_proxy
+  radius_proxy:
     build: .
-    container_name: rad_proxy
+    image: freeradius-python3-netbox:latest-alpine
+    container_name: radius_proxy
     ports:
       - 1812:1812/udp
       - 1813:1813/udp
     environment:
       - TZ=UTC
-      - NETBOX_URL=https://10.1.1.1/
-      - NETBOX_TOKEN=ABCDE
+      - PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      - NETBOX_URL=https://your.netbox.here/
+      - NETBOX_TOKEN=YOURNETBOXAPITOKENHERE
+    volumes:
+      - ./volumes/default:/etc/raddb/sites-available/default
+      - ./volumes/proxy.conf:/etc/raddb/proxy.conf
+      - ./volumes/dynamic-clients:/etc/raddb/sites-available/dynamic-clients
+      - ./volumes/python3:/etc/raddb/mods-available/python3
+      - ./volumes/netbox_clients.py:/etc/raddb/mods-config/python3/netbox_clients.py
     logging:
       driver: "json-file"
       options:
