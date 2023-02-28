@@ -45,7 +45,7 @@ def authorize(p):
 
   # Known device. Update the shared secret from config_context of the device.
   try:
-      nbdevice['config_context']['radius_server'][0]['secret']
+      nbdevice['custom_fields']['radius_secret']
   except:
       radiusd.radlog(radiusd.L_INFO, f"*** NETBOX: Device does not have a shared secret... Dropping packet ***")
       return radiusd.RLM_MODULE_REJECT
@@ -59,7 +59,7 @@ def authorize(p):
       radiusd.radlog(radiusd.L_INFO, f"*** NETBOX: NAS-Type not found, using other ***")
 
   update_dict = {
-    "config": ( ('FreeRADIUS-Client-Secret', nbdevice['config_context']['radius_server'][0]['secret']),
+    "config": ( ('FreeRADIUS-Client-Secret', nbdevice['custom_fields']['radius_secret']),
                 ('FreeRADIUS-Client-Shortname', nbdevice['name']), 
                 ('FreeRADIUS-Client-NAS-Type', _nas_type), ),
   }
