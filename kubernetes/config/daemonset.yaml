@@ -1,0 +1,44 @@
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: device-radius-daemonset
+  labels:
+    app: device-radius
+spec:
+  selector:
+    matchLabels:
+      name: device-radius-pod
+  template:
+    metadata:
+      labels:
+        name: device-radius-pod
+    spec:
+      containers:
+      - name: device-radius
+        image: <Your Custom Image Goes Here>
+        ports:
+        - containerPort: 1812
+          protocol: UDP
+        - containerPort: 1813
+          protocol: UDP
+        envFrom:
+        - configMapRef:
+            name: device-radius-env-config
+        volumeMounts:
+        - name: dynamic-clients-config
+          mountPath: /etc/raddb/sites-available/dynamic-clients
+          subPath: dynamic-clients.conf
+        - name: proxy-config
+          mountPath: /etc/raddb/proxy.conf
+          subPath: proxy.conf
+      volumes:
+      - name: dynamic-clients-config
+        configMap:
+          name: dynamic-clients-config
+      - name: proxy-config
+        configMap:
+          name: proxy-config
+      nodeSelector:
+        app: device-radius
+

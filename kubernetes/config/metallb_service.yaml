@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: device-radius-loadbalancer
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: <Your IP Goes Here>
+    # metallb.universe.tf/address-pool: <Your Pool Goes Here>
+spec:
+  selector:
+    name: device-radius-pod
+  ports:
+    - name: radius-auth
+      protocol: UDP
+      port: 1812
+      targetPort: 1812
+    - name: radius-accounting
+      protocol: UDP
+      port: 1813
+      targetPort: 1813
+  type: LoadBalancer
